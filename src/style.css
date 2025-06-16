@@ -1,0 +1,139 @@
+* { box-sizing: border-box; }
+:root {
+  color-scheme: light dark;
+  --fg: black;
+  --bg: #f8f8f8;
+}
+/* we can't use light-dark() due to some weird behavior in canvas fillStyle */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fg: #eee;
+    --bg: #222;
+  }
+}
+
+html {
+  --gray-1: color-mix(in srgb, var(--fg) 8%, Canvas);
+  --gray-2: color-mix(in srgb, var(--fg) 16%, Canvas);
+  --gray-3: color-mix(in srgb, var(--fg) 24%, Canvas);
+  --gray-4: color-mix(in srgb, var(--fg) 32%, Canvas);
+  --gray-5: color-mix(in srgb, var(--fg) 40%, Canvas);
+  --gray-6: color-mix(in srgb, var(--fg) 50%, Canvas);
+  --gray-7: color-mix(in srgb, var(--fg) 62%, Canvas);
+  --gray-8: color-mix(in srgb, var(--fg) 74%, Canvas);
+  --gray-9: color-mix(in srgb, var(--fg) 86%, Canvas);
+  --map-empty-cell-stroke: color-mix(in srgb, var(--fg) 7%, transparent);
+  --map-filled-cell-stroke: color-mix(in srgb, var(--fg) 40%, transparent);
+  --map-filled-cell-text-color: var(--bg);
+  --map-empty-cell-text-color: var(--gray-5);
+  --map-frontier-cell-stroke: color-mix(in srgb, var(--fg) 50%, transparent);
+  background-color: var(--bg);
+}
+body { margin: 0; font-family: sans-serif; text-align: center; }
+button { margin: 10px; padding: 8px 16px; font-size: 16px; }
+input[type="range"] { width: 300px; margin: 10px; }
+label { display: block; margin: 5px 0; }
+
+.settings {
+  /* display: flex;
+  flex-direction: column; */
+  padding: 1ch;
+  row-gap: 1ch;
+  max-width: 80ch;
+  margin-inline: auto;
+  grid-template-columns: max-content 4ch 1fr;
+  display: grid;
+  gap: 1ch;
+
+  :is(&, & > .conditional-setting-group) > * {
+    grid-column: 1 / -1;
+  }
+
+  :is(&, & > .conditional-setting-group) > .setting {
+    display: grid;
+    grid-template-columns: subgrid;
+
+    & > label {
+      grid-column: 1;
+      text-align: right;
+
+      &::after { content: ":"; }
+    }
+
+    & > select {
+      padding: 0.1em 1em;
+      border-radius: 5px;
+      grid-column: 2 / -1;
+      border: 1px solid var(--gray-3);
+      background-color: var(--gray-2);
+      font-size: 1em;
+    }
+  }
+
+  & > .conditional-setting-group:not([hidden]) {
+    display: contents;
+  }
+}
+
+.setting {
+  padding: 0.1em 1em;
+  background-color: var(--gray-1);
+  border: 1px solid var(--gray-3);
+  border-radius: 5px;
+}
+
+better-slider {
+  display: grid;
+  gap: 1ch;
+  grid-template-columns: max-content 4ch 1fr;
+  align-items: center;
+
+  .settings & {
+    grid-template-columns: subgrid;
+  }
+
+  & > input[type="range"] {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  .slider-value {
+    grid-column: 2;
+    font-weight: bold;
+    color: var(--fg);
+    text-align: right;
+  }
+}
+
+.display-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+
+  & > canvas { background: Canvas; }
+
+  .animation-controls {
+    display: flex;
+    width: min(100%, 800px);
+    align-items: center;
+    gap: 1em;
+    margin-bottom: 8px;
+    
+    p { margin: 0; }
+  }
+}
+
+body:has(.settings option[value="none"]:checked) .animation-controls { display: none; }
+
+#status {
+  display: block;
+
+  &.error {
+    color: color-mix(in srgb, red 80%, var(--fg));
+    background-color: color-mix(in srgb, red 7%, var(--bg));
+    padding: 1rem;
+    border: 1px solid color-mix(in srgb, red 30%, var(--bg));
+  }
+}

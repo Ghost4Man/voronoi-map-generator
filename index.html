@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Voronoi Map Generator Demo</title>
+</head>
+<body>
+  <h1>Voronoi Map Generator Demo</h1>
+
+  <div class="settings">
+    <better-slider class="setting">
+      <label for="numPoints">Number of Points</label>
+      <input type="range" id="numPoints" min="10" max="1000" value="80">
+    </better-slider>
+
+    <better-slider class="setting">
+      <label for="iterations">Lloyd Relaxation Iterations</label>
+      <input type="range" id="iterations" min="0" max="10" value="3">
+    </better-slider>
+    
+    <div class="setting">
+      <label for="regionGenerationMethod">Region Generation Method</label>
+      <select id="regionGenerationMethod">
+        <option value="none">None</option>
+        <option value="floodFill" selected>Flood Fill</option>
+      </select>
+    </div>
+
+    <fieldset class="conditional-setting-group" data-mapgen-method="floodFill">
+      <better-slider class="setting">
+        <label for="minRegionSize">Min Region Size</label>
+        <input type="range" id="minRegionSize" min="1" max="30" value="5">
+      </better-slider>
+      <better-slider class="setting">
+        <label for="regionCount">Desired Regions</label>
+        <input type="range" id="regionCount" min="1" max="100" value="3">
+      </better-slider>
+    </fieldset>
+
+  </div>
+
+  <output id="status" class="status-message"></output>
+
+  <div class="display-container">
+    <div class="animation-controls">
+      <better-slider class="setting animation-step-slider">
+        <label for="animationStep">Animation Step</label>
+        <input type="range" id="animationStep" min="0" max="10" value="0">
+      </better-slider>
+
+      <p id="stepDescription"></p>
+    </div>
+
+    <canvas id="voronoiCanvas" width="800" height="600"></canvas>
+  </div>
+
+  <script>
+    class BetterSlider extends HTMLElement {
+        constructor() {
+          super();
+          const rangeInput = this.querySelector('input[type="range"]');
+          // rangeInput.insertAdjacentHTML("afterend", `<span class="slider-value">50</span>`);
+          const sliderValueElement = document.createElement("span");
+          sliderValueElement.classList.add("slider-value");
+          sliderValueElement.innerText = rangeInput.value;
+          this.insertBefore(sliderValueElement, rangeInput);
+          rangeInput.addEventListener('input', (event) => {
+            sliderValueElement.innerText = event.target.value;
+          });
+        }
+        connectedCallback() { }
+        disconnectedCallback() { }
+      }
+      customElements.define('better-slider', BetterSlider);
+  </script>
+  
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

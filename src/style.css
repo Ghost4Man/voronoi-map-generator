@@ -30,6 +30,10 @@ html {
   background-color: var(--bg);
 }
 body { margin: 0; font-family: sans-serif; text-align: center; }
+h1 {
+  margin-block: 0.4rem 0rem;
+  font-size: clamp(1rem, 0.45rem + 2.75vw, 1.8rem);
+}
 button { margin: 10px; padding: 8px 16px; font-size: 16px; }
 input[type="range"] { width: 300px; margin: 10px; }
 label { display: block; margin: 5px 0; }
@@ -56,8 +60,6 @@ label { display: block; margin: 5px 0; }
     & > label {
       grid-column: 1;
       text-align: right;
-
-      &::after { content: ":"; }
     }
 
     & > select {
@@ -67,6 +69,20 @@ label { display: block; margin: 5px 0; }
       border: 1px solid var(--gray-3);
       background-color: var(--gray-2);
       font-size: 1em;
+
+      &:hover {
+        border-color: var(--gray-4);
+      }
+    }
+
+    @media (width < 50ch) {
+      grid-template-columns: minmax(14ch, max-content) 4ch minmax(8ch, 1fr);
+      column-gap: 1ch;
+
+      & > label {
+        font-size: 0.9rem;
+        text-align: left;
+      }
     }
   }
 
@@ -80,6 +96,14 @@ label { display: block; margin: 5px 0; }
   background-color: var(--gray-1);
   border: 1px solid var(--gray-3);
   border-radius: 5px;
+
+  & > label {
+    &::after { content: ":"; }
+  }
+
+  @media (width < 50ch) {
+    padding-inline: 1ch;
+  }
 }
 
 better-slider {
@@ -110,18 +134,33 @@ better-slider {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
 
-  & > canvas { background: Canvas; }
+  & > canvas {
+    background: Canvas;
+    max-width: calc(100svw - 1em);
+  }
 
   .animation-controls {
-    display: flex;
-    width: min(100%, 800px);
+    display: grid;
+    grid-template-columns: 5fr minmax(max-content, 3fr);
+    text-align: left;
+    width: min(100%, 800px + 2ch);
+    padding-inline: 1ch;
     align-items: center;
     gap: 1em;
     margin-bottom: 8px;
     
     p { margin: 0; }
+
+    .animation-step-slider {
+      width: 100%;
+    }
+
+    @media (width < 50ch) {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
   }
 }
 

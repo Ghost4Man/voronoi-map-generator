@@ -4,6 +4,7 @@
     "npm:@deno/vite-plugin@^1.0.4": "1.0.4_vite@6.3.5__picomatch@4.0.2",
     "npm:@types/d3@^7.4.3": "7.4.3",
     "npm:d3@^7.9.0": "7.9.0_d3-selection@3.0.0",
+    "npm:vite@*": "6.3.5_picomatch@4.0.2",
     "npm:vite@^6.3.5": "6.3.5_picomatch@4.0.2"
   },
   "npm": {
